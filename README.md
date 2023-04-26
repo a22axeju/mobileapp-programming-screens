@@ -3,40 +3,57 @@
 
 **Skriv din rapport här!**
 
-_Du kan ta bort all text som finns sedan tidigare_.
+Added a second activity by right-clicking on the same folder as MainActivity is in and selecting new,
+activity, empty activity and named it SecondActivity.
 
-## Följande grundsyn gäller dugga-svar:
-
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
-
+Added a button in the layout file of the first activity, constrained it to parent. 
+This button starts the second activity using the following code:
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
-    }
-}
+ <Button
+        android:id="@+id/start_second_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startSecondActivity"
+        android:text="Start Second Activity"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+```
+Also added an EditText widget in the same layout file, which lets the user enter their name. 
+
+In the java code of the first activity I added a startSecondActivity() method. This method finds
+the EditText widget with an ID of name_edittext, reads the text entered into a string and creates 
+a new intent object. Lastly it adds the name value as an extra to the intent and starts the
+SecondActivity. 
+
+In order to display the name on the second activity, I added a TextView widget in the layout file
+of the second activity using the following code:
+```
+    <TextView
+        android:id="@+id/name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+```
+       
+In the java code of the second activity the following code gets the data from the intent:
+```
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+Then the TextView needs to be updated with the new data, which the following code does: 
+```
+        TextView nameTextView = findViewById(R.id.name_textview);
+        nameTextView.setText("Name: " + name);
+```
+Screenshot of the first activity
+![](FirstActivityPic.png)
 
-![](android.png)
-
-Läs gärna:
-
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
+Screenshot of the second activity. In this case the name input was Axel.
+![](SecondActivityPic.png)
